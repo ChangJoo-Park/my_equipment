@@ -31,6 +31,7 @@ dependencies:
   flutter_riverpod: ^0.12.1
   hooks_riverpod: ^0.12.1
   flutter_hooks: ^0.14.1
+  cupertino_list_tile: ^0.1.4
 
 dev_dependencies:
   flutter_test:
