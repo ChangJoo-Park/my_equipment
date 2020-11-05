@@ -1,4 +1,3 @@
-import 'package:cupertino_list_tile/cupertino_list_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_equipments/styles.dart';
@@ -8,25 +7,27 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          CupertinoSliverNavigationBar(
-            backgroundColor: Styles.scaffoldBackground,
-            automaticallyImplyTitle: true,
-            automaticallyImplyLeading: true,
-            largeTitle: Text('Setting'),
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              CupertinoListTile(
-                leading: FlutterLogo(),
-                title: Text('HELLO WORLD'),
-                onTap: () {},
-              )
-            ]),
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Styles.scaffoldBackground,
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              backgroundColor: Styles.appBarBackground,
+              title: Text('Settings', style: TextStyle(color: Colors.black)),
+              centerTitle: false,
+              actions: [],
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate([
+                ListTile(
+                  title: Text('AAAA'),
+                  onTap: () {},
+                ),
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }

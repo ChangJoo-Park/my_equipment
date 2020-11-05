@@ -1,16 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_equipments/feed/view.dart';
 import 'package:my_equipments/home/view.dart';
-import 'package:my_equipments/providers.dart' as p;
-import 'package:my_equipments/search/view.dart';
 import 'package:my_equipments/setting/view.dart';
 import 'package:my_equipments/styles.dart';
-import 'package:my_equipments/widgets/search_bar.dart';
-
-// A Counter example implemented with riverpod
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Colors.black, // Color for Android
+      statusBarBrightness:
+          Brightness.light // Dark == white status bar -- for IOS.
+      ));
   runApp(
     const ProviderScope(child: MyApp()),
   );
@@ -21,55 +23,64 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
+    return MaterialApp(
       home: Home(),
     );
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  List<BottomNavigationBarItem> items = [
+    BottomNavigationBarItem(
+      icon: Icon(Icons.home),
+      label: '홈',
+      backgroundColor: Styles.tabBackgroundColor,
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.view_day),
+      label: '피드',
+      backgroundColor: Styles.tabBackgroundColor,
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.star),
+      label: '즐겨찾기',
+      backgroundColor: Styles.tabBackgroundColor,
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.view_comfy),
+      label: '설정',
+      backgroundColor: Styles.tabBackgroundColor,
+    ),
+  ];
+
+  List<Widget> pages = [
+    HomePage(),
+    FeedPage(),
+    HomePage(),
+    SettingPage(),
+  ];
+
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    const List<BottomNavigationBarItem> items = [
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.home),
+    return Scaffold(
+      body: pages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
+        backgroundColor: Colors.black,
+        fixedColor: Colors.white,
+        elevation: 0,
+        items: items,
+        currentIndex: _currentIndex,
+        onTap: (int next) {
+          setState(() => _currentIndex = next);
+        },
       ),
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.search),
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.settings),
-      )
-    ];
-
-    return CupertinoTabScaffold(
-        tabBar: CupertinoTabBar(items: items),
-        tabBuilder: (context, index) {
-          switch (index) {
-            case 0:
-              return CupertinoTabView(
-                builder: (context) {
-                  return HomePage(key: ValueKey('HomePage'));
-                },
-              );
-            case 1:
-              return CupertinoTabView(
-                builder: (context) {
-                  return SearchPage(key: ValueKey('SearchPage'));
-                },
-              );
-            case 2:
-              return CupertinoTabView(
-                builder: (context) {
-                  return SettingPage(key: ValueKey('SettingPage'));
-                },
-              );
-            default:
-              return CupertinoPageScaffold(
-                key: ValueKey('ErrorPage'),
-                child: Container(),
-              );
-          }
-        });
+    );
   }
 }

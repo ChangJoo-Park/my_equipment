@@ -42,6 +42,10 @@ abstract class Styles {
 
   static const Color scaffoldBackground = Color(0xffffffff);
 
+  static const Color tabBackgroundColor = Color(0xff000000);
+
+  static const Color appBarBackground = Color(0xffffffff);
+
   static const Color searchBackground = Color(0xffe0e0e0);
 
   static const Color searchCursorColor = Color.fromRGBO(0, 122, 255, 1);
